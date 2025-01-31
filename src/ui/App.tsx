@@ -3,7 +3,7 @@ const App = () => {
 
   return (
     <div className='text-7xl font-bold'>
-      Hello world
+      Hello worlds
     </div>
   )
 }

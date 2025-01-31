@@ -7,5 +7,10 @@ export default defineConfig({
   build: {
     outDir: "dist-ui",
   },
+  base: "./",
   plugins: [tailwindcss(), react()],
+  server: {
+    port: 3232,
+    strictPort: true,
+  },
 });

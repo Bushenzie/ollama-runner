@@ -1,0 +1,14 @@
+{
+    "appId": "com.bushenzie.ollama-runner",
+    "files": [
+        "dist-electron",
+        "dist-ui"
+    ],
+    "mac": {
+        "target": "dmg"
+    },
+    "linux": {
+        "target": "AppImage",
+        "category": "Utility"
+    }
+}
