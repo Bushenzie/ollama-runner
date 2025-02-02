@@ -2,18 +2,14 @@ import clsx from "clsx";
 import Markdown from 'react-markdown'
 import SyntaxHighlighter from 'react-syntax-highlighter'
 import { atomOneDark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+import { Message as MessageProps } from "../types/message"
 
-type MessageProps = {
-    side: "assistant" | "user",
-    text: string;
-}
-
-export const Message: React.FC<MessageProps> = ({ side, text }) => {
+export const Message: React.FC<MessageProps> = ({ content, role }) => {
     return (
-        <div className={clsx("chat", side === "assistant" ? "chat-start" : "chat-end")}>
-            <div className={clsx("chat-bubble", side === "user" && "chat-bubble-primary")}>
+        <div className={clsx("chat", role === "assistant" ? "chat-start" : "chat-end")}>
+            <div className={clsx("chat-bubble", role === "user" && "chat-bubble-primary")}>
                 <Markdown
-                    children={text}
+                    children={content}
                     className="leading-relaxed"
                     components={{
                         code(props) {
