@@ -1,5 +1,8 @@
 {
     "appId": "com.bushenzie.ollama-runner",
+    "extraResources": [
+        "dist-electron/preload.cjs"
+    ],
     "files": [
         "dist-electron",
         "dist-ui"

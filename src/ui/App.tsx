@@ -1,9 +1,12 @@
+import { Chat } from "./components/Chat"
+import { Topbar } from "./components/Topbar"
 
 const App = () => {
 
   return (
-    <div className='text-7xl font-bold'>
-      Hello worlds
+    <div className="flex flex-col w-screen h-screen">
+      <Topbar />
+      <Chat />
     </div>
   )
 }
