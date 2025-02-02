@@ -13,7 +13,7 @@ export const Topbar = () => {
     }, [])
 
     return (
-        <nav className='bg-zinc-900 flex justify-end p-2 w-full'>
+        <nav className='bg-zinc-900 z-10 flex justify-end p-2 w-full'>
             <select defaultValue="" className="select bg-zinc-800 focus:outline-none focus:border-none">
                 <option disabled={true} value={""}>Select model</option>
                 {models.map((model) => (

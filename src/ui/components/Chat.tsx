@@ -31,12 +31,25 @@ export const Chat = () => {
         // @ts-expect-error TODO
         const response = await window.api.sendMessage({ model: "deepseek-r1:1.5b", message: inputValue })
         setIsThinking(false);
-        postMessage("assistant", response.message.content)
+
+        const answer = response.message.content;
+
+        const thinkClosingTag = "</think>"
+        const endOfThinkingBlock = answer.indexOf(thinkClosingTag)
+        const formattedAnswer = answer.slice(endOfThinkingBlock + thinkClosingTag.length);
+        postMessage("assistant", formattedAnswer)
     }
 
     return (
-        <main className='w-full h-full p-4 bg-zinc-800 flex flex-col justify-end'>
-            {messages.map((msg) => (<Message key={uuidv4()} {...msg} />))}
+        <main className='w-full h-full px-4 pb-4 bg-zinc-800 flex flex-col overflow-hidden justify-end'>
+            {isThinking && (
+                <div className='z-50 bg-black/80 absolute inset-0 h-screen w-screen flex justify-center items-center'>
+                    <p className='text-2xl'>Thinking...</p>
+                </div>
+            )}
+            <div className="overflow-y-scroll">
+                {messages.map((msg) => (<Message key={uuidv4()} {...msg} />))}
+            </div>
             <div className="flex items-center mt-8 gap-2 w-full">
                 <textarea
                     placeholder='Enter your prompt'
