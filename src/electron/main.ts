@@ -1,7 +1,11 @@
 import { app, BrowserWindow } from "electron";
 import { ipcMain } from "electron/main";
 import path from "path";
-import { getAllInstalledModels, handleMessage } from "./ollama.js";
+import {
+  checkAvailability,
+  getAllInstalledModels,
+  handleMessage,
+} from "./ollama.js";
 // import { getAllInstalledModels, handleMessage } from "./ollama.js";
 // import { Channel } from "./types.js";
 
@@ -39,6 +43,7 @@ app
     }
   })
   .then(() => {
+    ipcMain.handle("checkAvailability", checkAvailability);
     ipcMain.handle("sendMessage", handleMessage);
     ipcMain.handle("getModels", getAllInstalledModels);
   });

@@ -2,13 +2,18 @@ import { ChangeEvent, useEffect, useState } from "react"
 import { ModelResponse } from "ollama";
 import { useChat } from "../context/ChatContext";
 import { Trash } from "lucide-react";
+import clsx from "clsx";
 
 export const Topbar = () => {
     const chat = useChat();
     const [models, setModels] = useState<ModelResponse[]>([]);
+    const [isOllamaRunning, setIsOllamaRunning] = useState(false);
 
     useEffect(() => {
         (async () => {
+            // @ts-expect-error TODO
+            const isRunning = await window.api.checkAvailability()
+            setIsOllamaRunning(isRunning)
             // @ts-expect-error TODO
             const response = await window.api.getModels()
             setModels(response.models)
@@ -21,10 +26,13 @@ export const Topbar = () => {
 
 
     return (
-        <nav className='bg-zinc-900 z-10 flex justify-end p-2 w-full'>
-            <button className="btn btn-link text-white" onClick={chat.clearChat}>
-                <Trash />
-            </button>
+        <nav className='bg-zinc-900 z-10 flex items-center justify-between p-2 w-full'>
+            <div>
+                <button className="btn btn-link text-white" onClick={chat.clearChat}>
+                    <Trash />
+                </button>
+                <div className={clsx("badge", isOllamaRunning ? "badge-success" : "badge-error")}>Ollama</div>
+            </div>
             <select onChange={handleChange} defaultValue="" className="select bg-zinc-800 focus:outline-none focus:border-none">
                 <option disabled={true} value={""}>Select model</option>
                 {models.map((model) => (

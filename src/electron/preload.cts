@@ -11,6 +11,7 @@ const electron = require("electron");
 // }
 
 const electronAPI = {
+  checkAvailability: () => electron.ipcRenderer.invoke("checkAvailability"),
   getModels: () => electron.ipcRenderer.invoke("getModels"),
   sendMessage: (args: { model: string; message: string }) =>
     electron.ipcRenderer.invoke("sendMessage", args),

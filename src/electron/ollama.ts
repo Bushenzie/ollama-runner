@@ -1,5 +1,6 @@
 import ollama, { ListResponse } from "ollama";
 import { IpcMainInvokeEvent } from "electron/main";
+import axios from "axios";
 
 type Message = {
   role: "user" | "assistant";
@@ -29,4 +30,14 @@ export const handleMessage = async (
   });
 
   return response;
+};
+
+export const checkAvailability = async (): Promise<boolean> => {
+  try {
+    await axios.get("http://localhost:11434");
+    return true;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  } catch (err) {
+    return false;
+  }
 };

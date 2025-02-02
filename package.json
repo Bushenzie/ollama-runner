@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.0.2",
+    "axios": "^1.7.9",
     "clsx": "^2.1.1",
     "lucide-react": "^0.474.0",
     "ollama": "^0.5.12",
