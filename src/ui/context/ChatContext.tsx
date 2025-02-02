@@ -43,7 +43,6 @@ export const ChatContextProvider: React.FC<{ children: React.ReactNode }> = ({ c
         const currentMessages = [...messages, msg]
         setMessages((prev) => ([...prev, msg]))
 
-        console.log(currentMessages);
         // @ts-expect-error TODO
         const response = await window.api.sendMessage({ model, messages: currentMessages })
 
