@@ -15,7 +15,6 @@ export const getAllInstalledModels = async (
 };
 
 export const handleMessage = async (
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   e: Electron.IpcMainInvokeEvent,
   args: { model: string; message: string }
 ) => {

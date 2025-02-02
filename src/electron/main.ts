@@ -24,7 +24,7 @@ app
     mainWindow = new BrowserWindow({
       title: "Ollama runner",
       height: 900,
-      width: 600,
+      width: 800,
       webPreferences: {
         contextIsolation: true,
         preload: getPreloadPath(),

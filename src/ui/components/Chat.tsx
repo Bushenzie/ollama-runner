@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid';
 import { Send } from 'lucide-react';
 import { Message } from './Message'
@@ -12,6 +12,19 @@ export const Chat = () => {
     const [isThinking, setIsThinking] = useState(false);
     const [messages, setMessages] = useState<Message[]>([])
     const [inputValue, setInputValue] = useState("");
+
+    useEffect(() => {
+        document.addEventListener("keydown", handleKeydown);
+        return () => {
+            document.removeEventListener("keypress", handleKeydown)
+        }
+    }, [])
+
+    const handleKeydown = (e: KeyboardEvent) => {
+        const isEnter = e.key === "Enter";
+        const isShift = e.shiftKey;
+        if (isEnter && !isShift) handleSend();
+    }
 
     const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setInputValue(e.target.value)
@@ -47,7 +60,7 @@ export const Chat = () => {
                     <p className='text-2xl'>Thinking...</p>
                 </div>
             )}
-            <div className="overflow-y-scroll">
+            <div className="overflow-y-scroll pt-4">
                 {messages.map((msg) => (<Message key={uuidv4()} {...msg} />))}
             </div>
             <div className="flex items-center mt-8 gap-2 w-full">
