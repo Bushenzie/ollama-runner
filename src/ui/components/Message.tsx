@@ -29,7 +29,25 @@ export const Message: React.FC<MessageProps> = ({ content, role }) => {
                                     {children}
                                 </code>
                             )
-                        }
+                        },
+                        h1(props) {
+                            return <h1 className="text-3xl leading-loose font-bold">{props.children}</h1>
+                        },
+                        h2(props) {
+                            return <h1 className="text-2xl leading-loose font-bold">{props.children}</h1>
+                        },
+                        h3(props) {
+                            return <h1 className="text-xl leading-loose font-bold">{props.children}</h1>
+                        },
+                        h4(props) {
+                            return <h1 className="text-lg leading-loose font-semibold">{props.children}</h1>
+                        },
+                        h5(props) {
+                            return <h1 className="text-base leading-loose font-semibold">{props.children}</h1>
+                        },
+                        h6(props) {
+                            return <h1 className="text-sm leading-loose font-semibold">{props.children}</h1>
+                        },
                     }}
                 />
             </div>
