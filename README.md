@@ -3,6 +3,10 @@
 - Electron app built to have minimal local UI for ollama chats instead of terminal
 - There is currently support for compilation for MacOS and Linux
 
+## Preview
+
+![](https://github.com/user-attachments/assets/8bddd0a8-cd26-4c7f-96a3-b9f3a21b606d)
+
 ## Requirements
 
 - Node.js v22
