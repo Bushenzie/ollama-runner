@@ -15,3 +15,7 @@
 - Install all dependencies _(`pnpm i`)_
 - Now you can either run in dev _(`pnpm dev`)_ mode or compile it _(`pnpm dist:{mac|linux}`)_
 - After compilation you can open the app from generated `dist` folder.
+
+## TODOs:
+
+- Correct types
