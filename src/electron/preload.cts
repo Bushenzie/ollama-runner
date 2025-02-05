@@ -1,20 +1,13 @@
 const electron = require("electron");
 
-// export type ElectronAPI = {
-//   getModels: () =>
-// };
-
-// declare global {
-//   interface Window {
-//     electron: ElectronAPI;
-//   }
-// }
-
-const electronAPI = {
-  checkAvailability: () => electron.ipcRenderer.invoke("checkAvailability"),
-  getModels: () => electron.ipcRenderer.invoke("getModels"),
-  sendMessage: (args: { model: string; message: string }) =>
-    electron.ipcRenderer.invoke("sendMessage", args),
+type Message = {
+  role: "user" | "assistant";
+  content: string;
 };
 
-electron.contextBridge.exposeInMainWorld("api", electronAPI);
+electron.contextBridge.exposeInMainWorld("api", {
+  checkAvailability: () => electron.ipcRenderer.invoke("checkAvailability"),
+  getModels: () => electron.ipcRenderer.invoke("getModels"),
+  sendMessage: (args: { model: string; messages: Message[] }) =>
+    electron.ipcRenderer.invoke("sendMessage", args),
+} satisfies Window["api"]);

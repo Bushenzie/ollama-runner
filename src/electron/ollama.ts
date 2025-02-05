@@ -1,5 +1,4 @@
 import ollama, { ListResponse } from "ollama";
-import { IpcMainInvokeEvent } from "electron/main";
 import axios from "axios";
 
 type Message = {
@@ -7,10 +6,7 @@ type Message = {
   content: string;
 };
 
-export const getAllInstalledModels = async (
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  e: IpcMainInvokeEvent
-): Promise<ListResponse> => {
+export const getAllInstalledModels = async (): Promise<ListResponse> => {
   try {
     const models = await ollama.list();
     return models;
@@ -24,12 +20,19 @@ export const handleMessage = async (
   e: Electron.IpcMainInvokeEvent,
   args: { model: string; messages: Message[] }
 ) => {
+  const startTime = Date.now();
   const response = await ollama.chat({
     model: args.model,
     messages: args.messages,
+    // stream: true,
   });
+  const endTime = Date.now();
+  const elapsedTime = (endTime - startTime) / 1000;
 
-  return response;
+  return {
+    ...response,
+    tokensPerSecond: response.eval_count / elapsedTime,
+  };
 };
 
 export const checkAvailability = async (): Promise<boolean> => {
@@ -37,7 +40,7 @@ export const checkAvailability = async (): Promise<boolean> => {
     await axios.get("http://localhost:11434");
     return true;
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  } catch (err) {
+  } catch (_) {
     return false;
   }
 };

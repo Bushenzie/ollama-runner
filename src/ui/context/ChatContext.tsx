@@ -7,8 +7,9 @@ type ChatContext = {
     isThinking: boolean;
     model: string | null;
     messages: Message[];
+    speed: number | null;
     changeModel: (model: string | null) => void;
-    sendMessage: (msg: Message) => Promise<string>;
+    sendMessage: (msg: Message) => Promise<string | null>;
     clearChat: () => void;
 }
 
@@ -16,6 +17,7 @@ const defaultContextState: ChatContext = {
     isThinking: false,
     model: null,
     messages: [],
+    speed: null,
     changeModel: () => { },
     sendMessage: async () => "",
     clearChat: () => { },
@@ -26,7 +28,8 @@ const ChatContext = createContext<ChatContext>(defaultContextState)
 export const ChatContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [model, setModel] = useState<string | null>(null);
     const [isThinking, setIsThinking] = useState(false);
-    const [messages, setMessages] = useState<Message[]>([])
+    const [messages, setMessages] = useState<Message[]>([]);
+    const [speed, setSpeed] = useState<number | null>(null)
 
     const changeModel = (model: string | null) => {
         setModel(model);
@@ -37,30 +40,29 @@ export const ChatContextProvider: React.FC<{ children: React.ReactNode }> = ({ c
     }
 
     const sendMessage = async (msg: Message) => {
-        if (!model) return;
+        if (!model) return null;
         setIsThinking(true)
 
         const currentMessages = [...messages, msg]
         setMessages((prev) => ([...prev, msg]))
 
-        // @ts-expect-error TODO
+
         const response = await window.api.sendMessage({ model, messages: currentMessages })
 
         setIsThinking(false);
 
-        const answer = response.message.content;
+        setSpeed(response.tokensPerSecond);
 
-        const thinkClosingTag = "</think>"
-        const endOfThinkingBlock = answer.indexOf(thinkClosingTag)
-        const formattedAnswer = answer.slice(endOfThinkingBlock + thinkClosingTag.length);
+        const answer = response.message.content;
 
         const responseMessage: Message = {
             role: "assistant",
-            content: formattedAnswer
+            content: answer
         }
 
         setMessages((prev) => ([...prev, responseMessage]))
-        return formattedAnswer;
+        return answer;
+
     }
 
     return (
@@ -68,6 +70,7 @@ export const ChatContextProvider: React.FC<{ children: React.ReactNode }> = ({ c
             isThinking,
             model,
             messages,
+            speed,
             changeModel,
             clearChat,
             sendMessage

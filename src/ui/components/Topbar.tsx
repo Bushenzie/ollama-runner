@@ -11,10 +11,8 @@ export const Topbar = () => {
 
     useEffect(() => {
         (async () => {
-            // @ts-expect-error TODO
             const isRunning = await window.api.checkAvailability()
             setIsOllamaRunning(isRunning)
-            // @ts-expect-error TODO
             const response = await window.api.getModels()
             setModels(response.models)
         })()

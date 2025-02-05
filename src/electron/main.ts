@@ -6,8 +6,6 @@ import {
   getAllInstalledModels,
   handleMessage,
 } from "./ollama.js";
-// import { getAllInstalledModels, handleMessage } from "./ollama.js";
-// import { Channel } from "./types.js";
 
 const isDev = process.env.NODE_ENV === "development";
 let mainWindow: BrowserWindow | null = null;
